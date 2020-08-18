@@ -39,11 +39,11 @@ function Load() {
 
   song_slider.value = 0;
 
-  setTimeout(function () {
-    song_slider.setAttribute("max", Math.round(song.duration));
-    song_duration = ConvertTime(Math.round(song.duration));
+  song.onloadedmetadata = function () {
+    song_slider.setAttribute("max", Math.round(this.duration));
+    song_duration = ConvertTime(Math.round(this.duration));
     current_time.textContent = "00:00 / " + song_duration;
-  }, 1000);
+  }
 }
 
 // Convert time to required format
