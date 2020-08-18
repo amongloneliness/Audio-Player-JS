@@ -11,6 +11,7 @@ var current_song = 0;
 var song_duration = "00:00";
 var song_title = document.getElementById("song-title");
 var song_slider = document.getElementById("seek-bar");
+var song_vol_slider = document.getElementById("volume");
 var song_picture = document.getElementById("audio-picture");
 var current_time = document.getElementById("current-time");
 
@@ -30,13 +31,14 @@ song.addEventListener('timeupdate', function () {
 
 // Loding song
 function Load() {
-  song.src = "../Audio-Player-JS/audio/" + songs[current_song] + ".mp3";
+  song.src = "../audio-player-for-web-js/audio/" + songs[current_song] + ".mp3";
   song_title.textContent = songs[current_song];
-  song_picture.src = "../Audio-Player-JS/audio/" + songs[current_song] + ".jpg";
+  song_picture.src = "../audio-player-for-web-js/audio/" + songs[current_song] + ".jpg";
 
   Visible_Transition(song_title, song_picture);
 
   song_slider.value = 0;
+
   setTimeout(function () {
     song_slider.setAttribute("max", Math.round(song.duration));
     song_duration = ConvertTime(Math.round(song.duration));
@@ -70,16 +72,16 @@ function PauseOrPlay() {
   } else {
     song.pause();
   }
-  document.getElementById("play").classList.toggle("active");
-  document.getElementById("pause").classList.toggle("active");
+  document.getElementById("play").classList.toggle("nonactive");
+  document.getElementById("pause").classList.toggle("nonactive");
   main_title.textContent = song_title.textContent;
 }
 
 function Stop() {
   song.pause();
   song.currentTime = 0;
-  document.getElementById("play").classList.value = "play-pause active";
-  document.getElementById("pause").classList.value = "play-pause";
+  document.getElementById("play").classList.value = "play-pause";
+  document.getElementById("pause").classList.value = "play-pause nonactive";
   main_title.textContent = backup_main_title;
 }
 
@@ -125,8 +127,8 @@ function RewindL() {
 
 function Play() {
   Load();
-  document.getElementById("play").classList.value = "play-pause";
-  document.getElementById("pause").classList.value = "play-pause active";
+  document.getElementById("play").classList.value = "play-pause nonactive";
+  document.getElementById("pause").classList.value = "play-pause";
   setTimeout(function () {
     song.play();
   }, 700);
@@ -135,4 +137,8 @@ function Play() {
 function SeekSong() {
   song.currentTime = song_slider.value;
   current_time.textContent = "00:00 / " + song_duration;
+}
+
+function VolSong() {
+  song.volume = song_vol_slider.value;
 }
